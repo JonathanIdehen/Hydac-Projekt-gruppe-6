@@ -11,9 +11,9 @@ namespace Hydac_Gruppe_6
         private string roomName;
         private int roomNumber;
 
-        public string RoomName { get; }
+        public string RoomName { get { return roomName; } }
 
-        public int RoomNumber { get; }
+        public int RoomNumber { get { return roomNumber; } }
 
         public Room(string roomName, int roomNumber)
         {

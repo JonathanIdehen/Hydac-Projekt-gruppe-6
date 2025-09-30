@@ -10,25 +10,30 @@ namespace Hydac_Gruppe_6
     {
         private string name;
         private DateTime date;
-        private TimeSpan meetingDuration = TimeSpan.FromHours(2);
+        private TimeSpan meetingDuration;
         private string responsibleEmployee;
-        private string[] attendingGuests;
+        //private string[] attendingGuests;
         private Room meetingRoom;
 
-        public Meeting(string name, DateTime date, string responsibleEmployee, Room[] meetingRooms) 
+        public Meeting(string name, DateTime date, string responsibleEmployee, Room meetingRoom) 
         {
             this.name = name;
             this.date = date;
             this.responsibleEmployee = responsibleEmployee;
+            meetingDuration = TimeSpan.FromHours(2);
+            this.meetingRoom = meetingRoom;
+        }
 
-            //vælg rum logik
-            foreach(Room element in meetingRooms)
-            {
-                Console.WriteLine(element.RoomNumber + ". " + element.RoomName);
-            }
-
-            //indsæt valgte rum
-            this.meetingRoom = ;
+        public void ShowMeeting()
+        {
+            Console.Clear();
+            Console.WriteLine("Møde med følgende info er nu booket");
+            Console.WriteLine($"Navn på mødet: {name}");
+            Console.WriteLine($"Dato for mødet: {date}");
+            Console.WriteLine($"Mødets varighed: {meetingDuration}");
+            Console.WriteLine($"Navn på mødets ansvarlige: {responsibleEmployee}");
+            //Console.WriteLine(attendingGuests);
+            Console.WriteLine($"Mødelokalets navn: {meetingRoom.RoomName}");
         }
     }
     
