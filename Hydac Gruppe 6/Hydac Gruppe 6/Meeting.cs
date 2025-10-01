@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Hydac_Gruppe_6
 {
-    internal class Meeting
+    public class Meeting
     {
         private string name;
         private DateTime date;
@@ -21,19 +23,21 @@ namespace Hydac_Gruppe_6
             this.date = date;
             this.responsibleEmployee = responsibleEmployee;
             meetingDuration = TimeSpan.FromHours(2);
+            //string[] attendingGuests;
             this.meetingRoom = meetingRoom;
         }
 
-        public void ShowMeeting()
+        public string ShowMeeting()
         {
-            Console.Clear();
-            Console.WriteLine("Møde med følgende info er nu booket");
-            Console.WriteLine($"Navn på mødet: {name}");
-            Console.WriteLine($"Dato for mødet: {date}");
-            Console.WriteLine($"Mødets varighed: {meetingDuration}");
-            Console.WriteLine($"Navn på mødets ansvarlige: {responsibleEmployee}");
-            //Console.WriteLine(attendingGuests);
-            Console.WriteLine($"Mødelokalets navn: {meetingRoom.RoomName}");
+            CultureInfo dansk = new CultureInfo("da-DK");
+
+            string meetingContents = $"Navn på mødet: {name};Dato for mødet: {date.ToString(dansk)};Mødets varighed: {meetingDuration};Navn på mødets ansvarlige: {responsibleEmployee};Mødelokalets navn: {meetingRoom.RoomName}";
+            string[] meetingParts = meetingContents.Split(';');
+            string meetingComplete;
+
+            meetingComplete = string.Join('\n', meetingParts);
+
+            return meetingComplete;
         }
     }
     

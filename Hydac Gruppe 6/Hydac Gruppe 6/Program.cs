@@ -73,7 +73,9 @@
                     {
                         if (element != null)
                         {
-                            element.ShowMeeting();
+                            Console.Clear();
+                            Console.WriteLine("Møde med følgende info er nu booket");
+                            Console.WriteLine(element.ShowMeeting());
                         }
                     }
                     break;

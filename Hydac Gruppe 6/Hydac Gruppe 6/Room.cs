@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hydac_Gruppe_6
 {
-    internal class Room
+    public class Room
     {
         private string roomName;
         private int roomNumber;
