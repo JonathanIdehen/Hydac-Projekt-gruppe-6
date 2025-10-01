@@ -1,11 +1,12 @@
-﻿namespace Hydac_Gruppe_6
+﻿using System.Xml.Linq;
+
+namespace Hydac_Gruppe_6
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            int userType;
-            int roomChoice;
+            //initialize existing rooms
             Room[] roomArray = new Room[14];
             roomArray[0] = new Room("#DK-LGS_Lokale_lille_Stue", 1);
             roomArray[1] = new Room("#DK-LGS_Lokale_Stilling_Kantine", 2);
@@ -22,14 +23,23 @@
             roomArray[12] = new Room("#DK-LGS_Lokaleservice", 13);
             roomArray[13] = new Room("#DK-LGS_Lokalestor", 14);
 
-            Meeting[] savedMeetings = new Meeting[4];
+            //regular variables
+            int userType;
+            int roomChoice;
             string meetingName;
             string meetingStringTime;
             DateTime meetingTime;
             string meetingEmployee;
             int savedMeetingsIndex = 0;
             Room meetingRoom;
+            MeetingCatalogue tempForMeetings = new MeetingCatalogue();
+            Meeting[] savedMeetings;
 
+            //read savedMeetings from file
+            tempForMeetings.ReadMeetingsFromFile("HydacMeetings.txt");
+            savedMeetings = tempForMeetings.SavedMeetings;
+
+            //regular code
             Console.WriteLine("Velkommen til Hydac!");
             Console.WriteLine("Hvis du er medarbejder, skriv 1. Hvis du er gæst, skriv 2");
 
@@ -68,16 +78,15 @@
                         savedMeetingsIndex++;
                     }
 
+                    //then write savedMeetings to file
+                    tempForMeetings.SavedMeetings = savedMeetings;
+                    tempForMeetings.WriteMeetingsToFile("HydacMeetings.txt");
+
                     //test om mødet er puttet ind ordenligt
-                    foreach (Meeting element in savedMeetings)
-                    {
-                        if (element != null)
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Møde med følgende info er nu booket");
-                            Console.WriteLine(element.ShowMeeting());
-                        }
-                    }
+                    Console.Clear();
+                    Console.WriteLine("Møde med følgende info er nu booket");
+                    Console.WriteLine(savedMeetings[savedMeetingsIndex - 1].GetMeetingContents().Replace(';', '\n'));
+
                     break;
                 case 2:
                     break;

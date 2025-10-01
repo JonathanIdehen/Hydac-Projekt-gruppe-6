@@ -27,17 +27,12 @@ namespace Hydac_Gruppe_6
             this.meetingRoom = meetingRoom;
         }
 
-        public string ShowMeeting()
+        public string GetMeetingContents()
         {
-            CultureInfo dansk = new CultureInfo("da-DK");
+            CultureInfo english = new CultureInfo("en-UK");
+            string meetingContents = $"{name};{date.ToString(english)};{meetingDuration};{responsibleEmployee};{meetingRoom.RoomName};{meetingRoom.RoomNumber}";
 
-            string meetingContents = $"Navn på mødet: {name};Dato for mødet: {date.ToString(dansk)};Mødets varighed: {meetingDuration};Navn på mødets ansvarlige: {responsibleEmployee};Mødelokalets navn: {meetingRoom.RoomName}";
-            string[] meetingParts = meetingContents.Split(';');
-            string meetingComplete;
-
-            meetingComplete = string.Join('\n', meetingParts);
-
-            return meetingComplete;
+            return meetingContents;
         }
     }
     

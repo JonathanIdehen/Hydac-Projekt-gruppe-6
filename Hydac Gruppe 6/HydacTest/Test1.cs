@@ -6,7 +6,7 @@ namespace HydacTest
     public sealed class Test1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestShowMeeting()
         {
             //arrange
             string meetingName = "Hans' Meeting";
@@ -17,9 +17,20 @@ namespace HydacTest
 
             //act
             Meeting meetingToBeShown = new Meeting(meetingName, meetingTime, meetingEmployee, meetingRoom);
-            
+
             //assert
-            Assert.AreEqual($"Navn på mødet: Hans' Meeting\nDato for mødet: 24.01.2024 14.30.00\nMødets varighed: 02:00:00\nNavn på mødets ansvarlige: Hans Hansen\nMødelokalets navn: lokale1", meetingToBeShown.ShowMeeting());
+            Assert.AreEqual("Hans' Meeting;1/24/2024 2:30:00 PM;02:00:00;Hans Hansen;lokale1;1", meetingToBeShown.GetMeetingContents());
+        }
+
+        [TestMethod]
+        public void TestPersistence()
+        {
+            //arrange
+            MeetingCatalogue tempForMeetings = new MeetingCatalogue();
+            tempForMeetings.DeleteMeetingsInFile("testMeetings.txt");
+
+            //act
+            //assert
         }
     }
 }
