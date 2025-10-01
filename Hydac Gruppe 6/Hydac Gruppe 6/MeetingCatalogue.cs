@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,21 +23,21 @@ namespace Hydac_Gruppe_6
         //methods
         public void WriteMeetingsToFile(string filePath)
         {
-            foreach (Meeting element in SavedMeetings)
+            try
             {
-                if (element != null)
+                StreamWriter sw = new StreamWriter(filePath);
+                foreach (Meeting element in SavedMeetings)
                 {
-                    try
+                    if (element != null)
                     {
-                        StreamWriter sw = new StreamWriter(filePath);
                         sw.WriteLine(element.GetMeetingContents());
-                        sw.Close();
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine($"Exception: {e.Message}");
                     }
                 }
+                sw.Close();
+            }
+            catch(Exception writingFile)
+            {
+                Console.WriteLine($"Exception: {writingFile.Message}");
             }
         }
 
@@ -52,6 +53,7 @@ namespace Hydac_Gruppe_6
                     string[] currentLineParts;
                     int meetingCount;
                     int savedMeetingIndex;
+                    CultureInfo english = new CultureInfo("en-UK");
 
                     string meetingName;
                     DateTime meetingDate;
@@ -60,9 +62,13 @@ namespace Hydac_Gruppe_6
 
                     sr = new StreamReader(filePath);
                     meetingCount = 0;
-                    while (!sr.EndOfStream) { meetingCount++; }
+                    while (!sr.EndOfStream) 
+                    { 
+                        sr.ReadLine();
+                        meetingCount++; 
+                    }
                     sr.Close();
-                    savedMeetings = new Meeting[meetingCount + 10]; //can hold all saved meetings + 10 extra
+                    savedMeetings = new Meeting[meetingCount + 1]; //can hold all saved meetings + 1 extra
 
                     sr = new StreamReader(filePath);
                     savedMeetingIndex = 0;
@@ -72,7 +78,7 @@ namespace Hydac_Gruppe_6
                         currentLineParts = currentLine.Split(';');
 
                         meetingName = currentLineParts[0];
-                        meetingDate = DateTime.Parse(currentLineParts[1]);
+                        meetingDate = DateTime.Parse(currentLineParts[1], english);
                         meetingEmployee = currentLineParts[3];
                         meetingRoom = new Room(currentLineParts[4], int.Parse(currentLineParts[5]));
 
@@ -83,7 +89,7 @@ namespace Hydac_Gruppe_6
                 }
                 else
                 {
-                    savedMeetings = new Meeting[10];
+                    savedMeetings = new Meeting[1];
                 }
             }
             catch (Exception readingFile)
@@ -92,7 +98,7 @@ namespace Hydac_Gruppe_6
             }
         }
 
-        public void DeleteMeetingsInFile(string filePath)
+        public void DeleteMeetingsFile(string filePath)
         {
             File.Delete(filePath);
         }

@@ -30,7 +30,7 @@ namespace Hydac_Gruppe_6
             string meetingStringTime;
             DateTime meetingTime;
             string meetingEmployee;
-            int savedMeetingsIndex = 0;
+            int savedMeetingsIndex;
             Room meetingRoom;
             MeetingCatalogue tempForMeetings = new MeetingCatalogue();
             Meeting[] savedMeetings;
@@ -69,12 +69,16 @@ namespace Hydac_Gruppe_6
                     meetingEmployee = Console.ReadLine();
 
                     //kald meeting constructor
-                    Meeting myMeeting = new Meeting(meetingName, meetingTime, meetingEmployee, meetingRoom);
+                    Meeting myNewMeeting = new Meeting(meetingName, meetingTime, meetingEmployee, meetingRoom);
 
                     //derefter "gem" det instantierede møde i et array for at repræsentere persistens
-                    if (savedMeetingsIndex < savedMeetings.Length)
+                    savedMeetingsIndex = 0;
+                    while (savedMeetingsIndex < savedMeetings.Length)
                     {
-                        savedMeetings[savedMeetingsIndex] = myMeeting;
+                        if (savedMeetings[savedMeetingsIndex] == null)
+                        {
+                            savedMeetings[savedMeetingsIndex] = myNewMeeting;
+                        }
                         savedMeetingsIndex++;
                     }
 
