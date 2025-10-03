@@ -21,6 +21,7 @@ namespace Hydac_Gruppe_6
         }
 
         //methods
+        //writes this instances savedMeetings array to the given file path
         public void WriteMeetingsToFile(string filePath)
         {
             try
@@ -41,25 +42,30 @@ namespace Hydac_Gruppe_6
             }
         }
 
+        //reads to this instances savedMeetings array from the given file path
         public void ReadMeetingsFromFile(string filePath)
         {
             try
             {
                 StreamReader sr;
 
+                //if file exists
                 if (File.Exists(filePath))
                 {
                     string currentLine;
                     string[] currentLineParts;
                     int meetingCount;
                     int savedMeetingIndex;
-                    CultureInfo english = new CultureInfo("en-UK");
 
+                    //getMeetingContents contents put into appropriate variables
                     string meetingName;
                     DateTime meetingDate;
                     string meetingEmployee;
                     Room meetingRoom;
 
+                    //checks number of Meetings in file
+                    //accordingly sets this MeetingCatalogue instances Meeting array field to be an appropriately sized array to hold them
+                    //+1 so it can hold one extra if one is getting added during the programs lifetime
                     sr = new StreamReader(filePath);
                     meetingCount = 0;
                     while (!sr.EndOfStream) 
@@ -68,8 +74,9 @@ namespace Hydac_Gruppe_6
                         meetingCount++; 
                     }
                     sr.Close();
-                    savedMeetings = new Meeting[meetingCount + 1]; //can hold all saved meetings + 1 extra
+                    savedMeetings = new Meeting[meetingCount + 1];
 
+                    //for each line, which is a meeting, puts said meeting into the array we just set
                     sr = new StreamReader(filePath);
                     savedMeetingIndex = 0;
                     while (!sr.EndOfStream)
@@ -78,7 +85,7 @@ namespace Hydac_Gruppe_6
                         currentLineParts = currentLine.Split(';');
 
                         meetingName = currentLineParts[0];
-                        meetingDate = DateTime.Parse(currentLineParts[1], english);
+                        meetingDate = DateTime.Parse(currentLineParts[1]);
                         meetingEmployee = currentLineParts[3];
                         meetingRoom = new Room(currentLineParts[4], int.Parse(currentLineParts[5]));
 
@@ -87,6 +94,7 @@ namespace Hydac_Gruppe_6
                     }
                     sr.Close();
                 }
+                // if file doesnt exist, sets this instances MeetingCatalogue instance to have one element of space for a newly created meeting. 
                 else
                 {
                     savedMeetings = new Meeting[1];
@@ -98,6 +106,7 @@ namespace Hydac_Gruppe_6
             }
         }
 
+        //deletes file at given filepath
         public void DeleteMeetingsFile(string filePath)
         {
             File.Delete(filePath);

@@ -10,6 +10,7 @@ namespace Hydac_Gruppe_6
 {
     public class Meeting
     {
+        //fields (private)
         private string name;
         private DateTime date;
         private TimeSpan meetingDuration;
@@ -17,6 +18,7 @@ namespace Hydac_Gruppe_6
         //private string[] attendingGuests;
         private Room meetingRoom;
 
+        //constructors
         public Meeting(string name, DateTime date, string responsibleEmployee, Room meetingRoom) 
         {
             this.name = name;
@@ -27,10 +29,11 @@ namespace Hydac_Gruppe_6
             this.meetingRoom = meetingRoom;
         }
 
+        //methods
+        //returns a string consisting of meeting info, all the attributes a meeting has. Said strings contents are divided up between ';' symbols. 
         public string GetMeetingContents()
         {
-            CultureInfo english = new CultureInfo("en-UK");
-            string meetingContents = $"{name};{date.ToString(english)};{meetingDuration};{responsibleEmployee};{meetingRoom.RoomName};{meetingRoom.RoomNumber}";
+            string meetingContents = $"{name};{date};{meetingDuration};{responsibleEmployee};{meetingRoom.RoomName};{meetingRoom.RoomNumber}";
 
             return meetingContents;
         }
