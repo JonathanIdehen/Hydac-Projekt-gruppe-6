@@ -26,23 +26,26 @@ namespace Hydac_Gruppe_6
             //regular variables
             int userType;
             int roomChoice;
+            int savedMeetingsIndex;
+            MeetingCatalogue tempForMeetings;
+            //Meeting contents
             string meetingName;
             string meetingStringTime;
             DateTime meetingTime;
             string meetingEmployee;
-            int savedMeetingsIndex;
             Room meetingRoom;
-            MeetingCatalogue tempForMeetings = new MeetingCatalogue();
-            Meeting[] savedMeetings;
 
-            //read savedMeetings from file
+            //make new meetingCatalogue
+            tempForMeetings = new MeetingCatalogue();
+
+            //read saved meetings from file to the catalogue
             tempForMeetings.ReadMeetingsFromFile("HydacMeetings.txt");
-            savedMeetings = tempForMeetings.SavedMeetings;
 
-            //welcome og menu choice
+            //welcome menu
             Console.WriteLine("Velkommen til Hydac!");
             Console.WriteLine("Hvis du er medarbejder, skriv 1. Hvis du er gæst, skriv 2");
 
+            //user chooses 'medarbejder' or 'gæst'
             userType = int.Parse(Console.ReadLine());
 
             //choice leads to either 'medarbejder' or 'gæst' functions
@@ -60,7 +63,7 @@ namespace Hydac_Gruppe_6
                     roomChoice = int.Parse(Console.ReadLine());
                     meetingRoom = roomArray[roomChoice - 1];                    
 
-                    //user input for meeting constructor parametre
+                    //user input for Meeting constructor parameters
                     Console.WriteLine("skriv navn på møde");
                     meetingName = Console.ReadLine();
                     Console.WriteLine("skriv starttidspunkt på møde, format er '[MMM] [DD], [YYYY], [TT:MM]'");
@@ -74,23 +77,22 @@ namespace Hydac_Gruppe_6
 
                     //update the savedMeetings array we read from file to start with
                     savedMeetingsIndex = 0;
-                    while (savedMeetingsIndex < savedMeetings.Length)
+                    while (savedMeetingsIndex < tempForMeetings.SavedMeetings.Length)
                     {
-                        if (savedMeetings[savedMeetingsIndex] == null)
+                        if (tempForMeetings.SavedMeetings[savedMeetingsIndex] == null)
                         {
-                            savedMeetings[savedMeetingsIndex] = myNewMeeting;
+                            tempForMeetings.SavedMeetings[savedMeetingsIndex] = myNewMeeting;
                         }
                         savedMeetingsIndex++;
                     }
 
-                    //then write savedMeetings to file
-                    tempForMeetings.SavedMeetings = savedMeetings;
+                    //then write saved meetings to file from catalogue
                     tempForMeetings.WriteMeetingsToFile("HydacMeetings.txt");
 
                     //write out all info about the meeting we just booked
                     Console.Clear();
                     Console.WriteLine("Møde med følgende info er nu booket");
-                    Console.WriteLine(savedMeetings[savedMeetingsIndex - 1].GetMeetingContents().Replace(';', '\n'));
+                    Console.WriteLine(tempForMeetings.SavedMeetings[savedMeetingsIndex - 1].GetMeetingContents().Replace(';', '\n'));
 
                     break;
                 case 2:
